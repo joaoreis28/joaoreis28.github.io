@@ -1,7 +1,7 @@
 # Site settings
-title: Biscuit Theme for Jekyll
+title: Remote
 tag_text: Biscuit
-description: Biscuit is a single-page responsive Jekyll theme. This is the most simple and still-good-looking Jekyll theme that you can find.
+description: Viewing
 # baseurl: "/blog" # the subpath of your site, e.g. /blog
 # url: "https://example.com" # the base hostname & protocol for your site, e.g. http://example.com
 
@@ -13,3 +13,5 @@ markdown: kramdown
 exclude: ["README.md"]
 sass:
   style: compressed
+exclude:
+  - vendor/bundle/

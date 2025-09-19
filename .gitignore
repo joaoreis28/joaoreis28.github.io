@@ -1,0 +1,36 @@
+# ===================================================================
+# Arquivo .gitignore para projetos Jekyll
+# ===================================================================
+
+# Arquivos gerados pelo Jekyll
+# A pasta _site contém a versão final e estática do seu site.
+# O GitHub Pages a gera automaticamente, então nunca a envie.
+/_site/
+
+# Dependências e cache do Bundler/Ruby
+# Esta pasta contém as gems que você instalou localmente.
+# Ela pode ser grande e deve ser ignorada.
+/vendor/bundle/
+
+# Arquivos de cache do Jekyll/Sass
+# Pastas temporárias para acelerar o processo de construção.
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+
+# Arquivos de log e outros arquivos gerados
+jekyll-doctor.html
+
+# Arquivos de sistema operacional
+# Ignora arquivos gerados automaticamente pelo macOS, Windows e Linux.
+.DS_Store
+Thumbs.db
+ehthumbs.db
+*~
+*.swp
+
+# Arquivos de configuração de editores de código
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
