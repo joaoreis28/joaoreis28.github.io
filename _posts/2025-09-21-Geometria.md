@@ -77,14 +77,48 @@ $$
 ### Orientação Relativa
 Aqui temos uma implentação direta do conceito de orientação relativa, primitiva que será amplamente utilizada posteriormente, testamos se o ponto $$ r $$ está à esquerda do segmento formado pelos pontos $$p$$ e $$q$$.
 
-![Desktop View](assets/images/orien.png){: width="700" height="400" }
-*Código implementando testes de orientação relativa .*
+
+```c++
+int left2(CGL::Point2 p, CGL::Point2 q, CGL::Point2 r)
+    {
+        return (q.x() - p.x()) * (r.y() - p.y()) - (q.y() - p.y()) * (r.x() - p.x()) > 0;
+    }
+
+    int right2(CGL::Point2 p, CGL::Point2 q, CGL::Point2 r)
+    {
+        return (q.x() - p.x()) * (r.y() - p.y()) - (q.y() - p.y()) * (r.x() - p.x()) < 0;
+    }
+
+    int collinear2(CGL::Point2 p, CGL::Point2 q, CGL::Point2 r)
+    {
+        return (q.x() - p.x()) * (r.y() - p.y()) - (q.y() - p.y()) * (r.x() - p.x()) == 0;
+    }
+
+```
+
+
+
 
 ### Fórmula de Shoelace
 Implementação da fórmula de shoelace para um polígono com n lados.
-![Desktop View](assets/images/formula.png){: width="700" height="400" }
-*Código implementando testes de orientação relativa .*
 
+```c++
+double areaPoligono(CGL::Polygon2 poligono, int nVertices)
+    {
+        double soma = 0.0;
+
+        // formuula shoelace
+        for(int i = 0 ; i < nVertices; i++)
+        {
+            CGL::Point2 p1 = poligono[i];
+            CGL::Point2 p2 = poligono[(i + 1) % nVertices];
+            soma += (p1.x() * p2.y()) - (p1.y() * p2.x());
+
+        }
+
+        return soma/2.0;
+    }
+```
 
 ## Intersecção de Segmentos
 
