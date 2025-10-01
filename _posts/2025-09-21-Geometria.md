@@ -121,6 +121,57 @@ double areaPoligono(CGL::Polygon2 poligono, int nVertices)
 ```
 
 ## Intersecção de Segmentos
-
+Nesta seção detalharemos mais uma operação básica que será amplamente utilizada posteriormente, que é a intersecção de segmentos
 ### Intersecção Própria
+**Problema**: dado dois segmentos $$ ab $$ e $$cd$$ no $$ \mathbb{R}^2 $$ e usando o produto vetorial definido acima, determinar se eles se interceptam.
+
+**Solução**: os segmentos se interceptam se os pontos $$C$$ e $$D$$ estão em lados opostos em relação ao segmento $$ab$$ e, ao mesmo tempo, os pontos $$A$$ e $$B$$ estão de lados opostos em relação ao segmento $$cd$$. Para tal é necessário que os vetores $$ \overrightarrow{AC}$$ e $$ \overrightarrow{AD}$$ tenham orientações diferentes com relação a $$ \overrightarrow{AB}$$, ou seja, $$(\overrightarrow{AB} \times \overrightarrow{AC}) \cdot (\overrightarrow{AB} \times \overrightarrow{AD}) < 0$$. O mesmo é necessário para $$ \overrightarrow{CA}$$ e $$ \overrightarrow{CB}$$ com a relação a $$ \overrightarrow{CD}$$.
+
+![Desktop View](assets/images/inter.png){: width="700" height="400" }
+*Intersecção dos segmentos do  gerado no GeoGebra  .*
+
+#### Implementação
+Implementação da ideia descrita acima utilizando as primitivas já citadas de __left__ e __collinear__ .
+```c++
+int intersecPropria2(CGL::Segment2 s, CGL::Segment2 t)
+    {
+        if (collinear2(s[0], s[1], t[0]) || collinear2(s[0], s[1], t[1]) || collinear2(t[0], t[1], s[0]) || collinear2(t[0], t[1], s[1])) return 0;
+        int a = left2(s[0], s[1], t[0]) xor left2(s[0], s[1], t[1]);
+        int b = left2(t[0], t[1], s[0]) xor left2(t[0], t[1], s[1]);
+        return a && b;
+    }
+
+```
+
+
 ### Intersecção Imprópria
+No nosso contexto, definimos intersecção imprópria em dois casos:
+-   Um extremo de um segmento coincide com um extremo do outro
+![Desktop View](assets/images/interIm1.png){: width="700" height="400" }
+*Intersecção dos segmentos do  gerado no GeoGebra  .*
+-   Os segmentos são colineares e sobrepostos
+![Desktop View](assets/images/interIm2.png){: width="700" height="400" }
+*Intersecção dos segmentos do  gerado no GeoGebra  .*
+
+### Implementação
+
+```c++
+int noMeio(int a, int b, int c)
+    {
+        return (std::min(a, b) <= c) && (c <= std::max(a, b));
+    }
+
+    int noSegmento(CGL::Point2 a, CGL::Point2 b, CGL::Point2 c)
+    {
+        return collinear2(a, b, c) && noMeio(a.x(), b.x(), c.x()) && noMeio(a.y(), b.y(), c.y());
+    }
+
+    int intersecImpropria2(CGL::Segment2 s, CGL::Segment2 t)
+    {
+        if (s[0] == t[0] || s[0] == t[1] || s[1] == t[0] || s[1] == t[1]) return 1;
+        if (noSegmento(s[0], s[1], t[0]) || noSegmento(s[0], s[1], t[1]) || noSegmento(t[0], t[1], s[0]) || noSegmento(t[0], t[1], s[1])) return 1;
+        return 0;
+    }
+
+
+```
