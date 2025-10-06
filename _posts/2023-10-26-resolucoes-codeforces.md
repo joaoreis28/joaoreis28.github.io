@@ -4,6 +4,7 @@ date: 2023-10-26 09:00:00 +0000
 categories: [Codeforces]
 tags: [índice, programação-competitiva]
 pin: true
+description: Índice de Resoluções de Problemas do Codeforces.
 ---
 
 Aqui você encontrará uma lista de todas as minhas resoluções de problemas do Codeforces. Esta página será atualizada a cada nova solução postada.
