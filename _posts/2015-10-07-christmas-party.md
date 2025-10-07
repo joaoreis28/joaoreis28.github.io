@@ -28,7 +28,7 @@ void solve()
     vec[1] = 0;
     vec[2] = 1;
 
-    for(int i = 3; i <= n; i++) // derangement formula
+    for(int i = 3; i <= n; i++) // derangement formula -> Conta as permutações em que os elementos não aparecem nas posições originais
         vec[i] = (((vec[i-1] + vec[i-2]) % MOD) * (i -1)) % MOD;
 
     cout << vec[n] << endl;
