@@ -2,7 +2,7 @@
 title: "Solução do Problema Point in Polygon do CSES"
 date: 2025-10-03 10:00:00 +0000
 categories: [CSES]
-tags: [problema, programação-competitiva]
+tags: [problema, programação-competitiva, geometria]
 description: Resolução problema Point in Polygon do CSES.
 math : true
 ---

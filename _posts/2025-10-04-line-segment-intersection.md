@@ -2,7 +2,7 @@
 title: "Solução do Problema Line Segment Intersection do CSES"
 date: 2025-10-03 10:00:00 -0300
 categories: [CSES]
-tags: [problema, programação-competitiva]
+tags: [problema, programação-competitiva, geometria]
 description: Resolução problema Line Segment Intersection do CSES.
 math : true 
 ---
