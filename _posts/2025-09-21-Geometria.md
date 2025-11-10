@@ -175,3 +175,9 @@ int noMeio(int a, int b, int c)
 
 
 ```
+
+
+## Convex Hull - Grahan Scan
+
+
+{% include embed/video.html src='/assets/videos/receba.mp4' %}
