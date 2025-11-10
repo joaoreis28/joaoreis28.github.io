@@ -61,7 +61,7 @@ sf::VertexArray ler_pontos()
 }
 
 
-std::vector<sf::Vector2f> grahan_scan(sf::VertexArray& conjunto, int tamanho)
+sf::VertexArray grahan_scan(sf::VertexArray& conjunto, int tamanho)
 {
     float miny, xatual;
     miny = LLONG_MAX;
@@ -105,19 +105,9 @@ std::vector<sf::Vector2f> grahan_scan(sf::VertexArray& conjunto, int tamanho)
 
     std::cout << conjunto[0].position.x << " " << conjunto[0].position.y << std::endl;
 
-    std::vector <sf::Vector2f> S;
 
 
-    for(int i = 0; i < conjunto.getVertexCount(); i++)
-    {
-        while(S.size() > 1  && !left(S[S.size() - 2], S.back(), conjunto[i].position))
-            S.pop_back();
-        S.push_back(conjunto[i].position);
-    }
-    std::cout << S.size() << std::endl;
-
-
-    return S;
+    return conjunto;
 
 }
 
@@ -135,28 +125,36 @@ int main()
     planoCartesiano.setSize(800.f, -600.f);
 
 
-    sf::VertexArray pontos = ler_pontos();    
-    std::vector <sf::Vector2f> fecho = grahan_scan(pontos, pontos.getVertexCount());
-    int tamanho = (int)fecho.size();
-    sf::Vertex lista_fecho[tamanho];
+
+    /////////////////////////////////////////////////////////////////////////
+
+    sf::VertexArray linhas_tracadas(sf::PrimitiveType::LinesStrip);// arestas a desenhar
+    sf::VertexArray pontos_do_fecho(sf::PrimitiveType::Points);// arestas a desenhar
 
 
+    sf::VertexArray pontos = ler_pontos();  // Ler a entrada
 
-    for(int i = 0; i < fecho.size(); i++ )
+    sf::VertexArray pontos_ordenados_por_angulo_polar = grahan_scan(pontos, pontos.getVertexCount());
+
+    for(int i = 0; i < pontos_ordenados_por_angulo_polar.getVertexCount(); i++)
     {
-        lista_fecho[i] = sf::Vertex(sf::Vector2f(fecho[i].x, fecho[i].y), sf::Color::Green);
-
+        std::cout << pontos_ordenados_por_angulo_polar[i].position.x << " " << pontos_ordenados_por_angulo_polar[i].position.x << std::endl;
     }
-
-    sf::VertexArray linhas_tracadas(sf::PrimitiveType::LinesStrip);
-
-
-    for(int i = 0; i < fecho.size(); i++ ) linhas_tracadas.append(lista_fecho[i]);
-    linhas_tracadas.append(lista_fecho[0]);
+ 
 
 
-    int flag = 0;
+
+    // int flag = 0;
     int flag2 = 0;
+    int pressionado = 0;
+    int i = 0;
+    int ultimo = 0;
+
+    std::vector <sf::Vector2f> S;
+
+
+  
+
     while (window.isOpen())
     {
         sf::Event event;
@@ -169,35 +167,60 @@ int main()
             {
                 if(event.key.code == sf::Keyboard::A)
                 {
-                    flag = 1;
+                    //flag = 1;
                 }
                 if(event.key.code == sf::Keyboard::B)
                 {
                     flag2 = 1;
                 }
+                if(event.key.code == sf::Keyboard::J)
+                {
+                    pressionado = 1;
+                }
             }
         }
 
-        window.clear(sf::Color::White);
+        window.clear(sf::Color::Black);
 
         window.setView(planoCartesiano); // Configurar o Plano Cartesiano
 
-       
+   
+    for(; i < pontos_ordenados_por_angulo_polar.getVertexCount() && pressionado; i++)
+     {
+         while(S.size() > 1  && !left(S[S.size() - 2], S.back(), pontos_ordenados_por_angulo_polar[i].position))
+         {
+            S.pop_back();
+            if (linhas_tracadas.getVertexCount() > 0)
+            {
+            linhas_tracadas.resize(linhas_tracadas.getVertexCount() - 1);
+            //linhas_tracadas.resize(pontos_do_fecho.getVertexCount() - 1);
 
-        sf::Vertex lista_vetor[2] = 
-        {
-            sf::Vertex(sf::Vector2f(200.f, 200.f), sf::Color::Green),
-            sf::Vertex(sf::Vector2f(100.f, 90.f), sf::Color::Green),
+            }
 
-        };
+         }
+         S.push_back(pontos_ordenados_por_angulo_polar[i].position);
+         linhas_tracadas.append(sf::Vector2f(pontos_ordenados_por_angulo_polar[i].position.x, pontos_ordenados_por_angulo_polar[i].position.y));
+         pontos_do_fecho.append(sf::Vertex(sf::Vector2f(pontos_ordenados_por_angulo_polar[i].position.x, pontos_ordenados_por_angulo_polar[i].position.y), sf::Color::Green));
 
+
+         std::cout << "receba" << std::endl;
+         std::cout << linhas_tracadas.getVertexCount() << std::endl;
+         pressionado = 0;
+     }
+     
+
+        if(i == pontos_ordenados_por_angulo_polar.getVertexCount())
+            linhas_tracadas.append(sf::Vector2f(pontos_ordenados_por_angulo_polar[0].position.x, pontos_ordenados_por_angulo_polar[0].position.y));
+        
 
         glPointSize(10.0f);
         window.draw(pontos);
-        if(flag)
-            window.draw(lista_fecho, 8, sf::Points);
-        if(flag2)
-            window.draw(linhas_tracadas);
+        // if(flag)
+        //     window.draw(pontos_do_fecho, 8, sf::Points);
+        //if(flag2)
+        window.draw(linhas_tracadas);
+        window.draw(pontos_do_fecho);
+
 
 
         window.display();
