@@ -176,9 +176,24 @@ int noMeio(int a, int b, int c)
 
 ```
 
+## Triangulação de polígonos
+
+## Partição de polígonos
+
 
 ## Convex Hull - Grahan Scan
 
 
 {% include embed/video.html src='/assets/videos/receba.mp4' autoplay=true
   loop=true %}
+
+
+## Problema do Par mais próximo
+
+
+## Intersecção de Segmentos (números)
+
+
+## Delaunay
+
+## Voronoi
