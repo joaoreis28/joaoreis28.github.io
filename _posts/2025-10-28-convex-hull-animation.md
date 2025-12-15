@@ -5,7 +5,7 @@ categories: [Geometria Computacional]
 tags: [geometria]     # TAG names should always be lowercase
 description: Implementação da simulação do algoritmo de fecho convexo Grahan Scan com a biblioteca SFML.
 math: true
-image: /assets/images/hippo.jpg
+image: /assets/images/Convex.png
 ---
 
 ## Explicação

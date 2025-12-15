@@ -5,6 +5,7 @@ categories: [CSES]
 tags: [índice, programação-competitiva]
 pin: true
 description: Índice de Resoluções de Problemas do CSES.
+image : /assets/images/cses.jpeg
 
 ---
 

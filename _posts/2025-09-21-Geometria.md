@@ -25,10 +25,10 @@ o vetor $$ \vec{v_2} $$ está à esquerda de $$ \vec{v_1} $$. De forma simétric
 , o vetor $$ \vec{v_2} $$ está à direita de $$ \vec{v_1} $$ .
 
 
-![Desktop View](assets/images/positivo.png){: width="700" height="400" }
+![Desktop View](assets/images/porta.png){: width="700" height="400" }
 *O vetor $$ \vec{v_2} $$  está à esquerda do vetor $$ \vec{v_1} $$ .*
 
-![Desktop View](assets/images/negativo.png){: width="700" height="400" }
+![Desktop View](assets/images/novocerto.png){: width="700" height="400" }
 *O vetor $$ \vec{v_2} $$  está à direita do vetor $$ \vec{v_1} $$ .*
 
 

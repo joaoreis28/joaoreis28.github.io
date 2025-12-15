@@ -5,6 +5,7 @@ categories: [Codeforces]
 tags: [índice, programação-competitiva]
 pin: true
 description: Índice de Resoluções de Problemas do Codeforces.
+image : /assets/images/codeforces.jpg
 ---
 
 Aqui você encontrará uma lista de todas as minhas resoluções de problemas do Codeforces. Esta página será atualizada a cada nova solução postada.
