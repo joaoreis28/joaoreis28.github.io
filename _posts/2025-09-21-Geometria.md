@@ -5,6 +5,8 @@ categories: [Geometria Computacional]
 tags: [geometria]     # TAG names should always be lowercase
 description: Notas de aula  da disciplina de Geometria computacional.
 math: true
+pin : true 
+image : /assets/images/voronoi.png
 ---
 
 ## Conceitos básicos e primitivas
