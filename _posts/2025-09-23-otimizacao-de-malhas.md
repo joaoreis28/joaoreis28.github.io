@@ -120,7 +120,8 @@ void qualidade(CGL::Mesh &mesh, CGL::Mesh::Face_index f)
 ## Otimização via Flip de Arestas
 A otimização ocorre percorrendo as arestas internas da malha. Para cada aresta compartilhada por dois triângulos, verificamos se a operação de Flip (trocar a diagonal do quadrilátero formado) aumentaria a qualidade mínima local.
 
-A operação de troca foi implementada utilizando as operações de Euler join_face e split_face da CGAL. É crucial verificar se o quadrilátero formado pelos dois triângulos é convexo antes de tentar o flip, caso contrário, a operação geraria uma geometria inválida.
+A operação de troca foi implementada utilizando as operações de Euler `` join_face `` e `` split_face ``
+ da CGAL. É crucial verificar se o quadrilátero formado pelos dois triângulos é convexo antes de tentar o flip, caso contrário, a operação geraria uma geometria inválida.
 
 ```c++
 if(qualidade_depois > qualidade_antes)
