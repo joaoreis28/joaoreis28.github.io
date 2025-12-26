@@ -1,19 +1,26 @@
 ---
 title: Otimização de Malhas - Mesh Improvement
 date: 2025-09-23 09:53:00 -0300
-categories: [Geometria Computacional]
-tags: [geometria, otimização]     # TAG names should always be lowercase
-description: Descrição do trabalho de otimização .
+categories: [Computação Gráfica, Geometria Computacional]
+tags: [c++, algoritmos, malhas]
 math: true
 pin: true
-image : /assets/images/trab1.png
+image:
+  path: /assets/images/trab1.png
+  alt: Visualização da malha otimizada
 ---
 
-# Enunciado 
-A ideia do trbalho é implementar uma melhora para a triangulação de um polígono lido a partir de um arquivo do tipo __object file__(OBJ) e representado usando uma estrutura do tipo halfedge.
+## O Desafio: Malhas de Alta Qualidade
 
-## Formato OBJ
-O formato de OBJ é um formato de arquivo aberto para definição de geometrias, definindo a geomtria 3D do objeto, seus vértices e faces.
+A triangulação de um polígono é uma etapa fundamental em diversos problemas de geometria computacional. No entanto, não basta apenas triangular: a "qualidade" dos triângulos gerados impacta diretamente aplicações como o **Método dos Elementos Finitos (FEM)** e processos de interpolação.
+
+O objetivo deste projeto foi implementar um algoritmo capaz de ler um polígono (formato OBJ), gerar uma triangulação inicial ingênua e, em seguida, otimizar essa malha maximizando uma métrica de qualidade através de operações de *Edge Flip*.
+
+Utilizei a biblioteca **CGAL** (através da interface CGL da disciplina) e a estrutura de dados **DCEL (Doubly-Connected Edge List)**.
+
+## Entrada - Formato OBJ
+
+O formato de OBJ é um formato de arquivo aberto para definição de geometrias, definindo a geometria 3D do objeto, seus vértices e faces.
 
 ```c
 
@@ -36,22 +43,31 @@ f 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
 
 ```
 
-- Vértices $$v$$ indica as coordenadas de um vértice, ordenados no sentido anti-horário.
-- Faces $$f$$ indica a face composta pelos índices dos vértices
+- Vértice $$v$$ indica as coordenadas de um vértice, ordenados no sentido anti-horário.
+- Face $$f$$ indica a face composta pelos índices dos vértices
 
+![Desktop View](assets/images/exemplo.png){: width="500" height="300" }
+*O Polígono do exemplo  .*
 
-## Estrutura Half-Edge, doubly-connected edge list(DCEL)
+## Critério de Qualidade
 
-
-
-## Minha Solução 
-O critério que eu formulei para avaliar a qualidade dos triângulos foi :
+Para guiar a otimização, formulei um critério que penaliza triângulos muito "magros" ou distorcidos. A métrica escolhida mede o quão próximo um triângulo é de ser equilátero:
 
 $$
-    f = \dfrac {4 \sqrt{3} A} {a² + b² + c²}
+    f = \frac {4 \sqrt{3} A} {a^2 + b^2 + c^2}
 $$
 
-onde $$f$$ varia de 0 (triângulo degenerado) até 1 (triângulo equilátero), $$A$$ é a área do triângulo, e $$(a,b,c)$$ são os tamanhos dos lados do triângulo.
+Onde:
+* $$f$$: Fator de qualidade ($0 \le f \le 1$). $1$ é um triângulo equilátero perfeito.
+* $$A$$: Área do triângulo.
+* $$a, b, c$$: Comprimentos das arestas.
+
+> **Por que essa métrica?**
+> No FEM, triângulos com ângulos muito pequenos aumentam o erro de aproximação e podem tornar o cálculo instável. Esta métrica garante que buscamos triângulos o mais "gordos" possível.
+
+### Implementação da Métrica
+
+Abaixo, o trecho de código em C++ que calcula essa qualidade a partir de uma face da malha:
 
 ```c++
 void qualidade(CGL::Mesh &mesh, CGL::Mesh::Face_index f)
@@ -99,7 +115,47 @@ void qualidade(CGL::Mesh &mesh, CGL::Mesh::Face_index f)
 
     std:: cout<< numerator / denominator << std::endl;
 }
-
 ```
-A métrica foi escolhida porque ela mede o quanto um triângulo se afasta da forma equilátera, especialmente útil em aplicações como o método dos elementos finitos(FEM) e em processos de interpolação. No FEM, por exemplo, o domínio do problema físico é dividido em pequenos triângulos, e cada um deles serve como base para aproximar a solução de uma equação diferencial. Se esses triângulos forem mal formados, com ângulos muito pequenos ou áreas quase nulas, a aproximação perde precisão e o cálculo pode se tornar instável. Já na interpolação, em que se reconstrói uma função a partir de valores conhecidos nos vértices, triângulos de baixa qualidade distorcem a distribuição da função e aumentam o erro. Por isso, usar $$f$$ como métrica é útil para identificar e evitar esses problemas, garantindo triangulações mais confiáveis e adequadas para diferentes aplicações.
 
+## Otimização via Flip de Arestas
+A otimização ocorre percorrendo as arestas internas da malha. Para cada aresta compartilhada por dois triângulos, verificamos se a operação de Flip (trocar a diagonal do quadrilátero formado) aumentaria a qualidade mínima local.
+
+A operação de troca foi implementada utilizando as operações de Euler join_face e split_face da CGAL. É crucial verificar se o quadrilátero formado pelos dois triângulos é convexo antes de tentar o flip, caso contrário, a operação geraria uma geometria inválida.
+
+```c++
+if(qualidade_depois > qualidade_antes)
+            {
+                CGL::Mesh::Halfedge_index h3 = mesh.next(h1);
+                CGL::Mesh::Halfedge_index h4 = mesh.opposite(h1);
+                h4 = mesh.next(h4);
+
+                CGAL::Euler::join_face(h1, mesh);
+                CGAL::Euler::split_face(h3, h4, mesh);
+
+                melhoria_global = true; 
+            }
+```
+
+
+
+## Resultados
+
+Os resultados visuais mostram claramente a eliminação de triângulos degenerados
+
+
+
+![Desktop View](assets/images/normal.png){: width="500" height="300" }
+*O Polígono do exemplo  .*
+
+
+![Desktop View](assets/images/naive.png){: width="500" height="300" }
+*Triangulação Naive .*
+
+
+![Desktop View](assets/images/melhorado.png){: width="500" height="300" }
+*Triangulação melhorada  .*
+
+## Conclusão e Código Completo
+Este trabalho demonstrou como operações locais na topologia (Edge Flips), guiadas por uma métrica geométrica simples, podem melhorar drasticamente a qualidade global de uma malha. Essa técnica é a base para algoritmos mais complexos como a Triangulação de Delaunay.
+
+Código Completo : [Ver Código no GitHub](https://github.com/joaoreis28/Trabalho-1-Geometria-Computacional/tree/master){: target="_blank" }
