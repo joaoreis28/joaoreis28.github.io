@@ -24,7 +24,7 @@ Atualmente, meus projetos e pesquisas envolvem:
 
 ### Entre em contato
 
-Estou sempre aberto a discutir novos algoritmos ou colaborar em projetos open source.
+Estou sempre aberto a  discutir novos algoritmos ou colaborar em projetos open source.
 
 * [GitHub](https://github.com/joaoreis28)
 * Email: [reisjoaomendes@gmail.com]
