@@ -6,6 +6,7 @@ tags: [geometria, otimização]     # TAG names should always be lowercase
 description: Descrição do trabalho de divisão planar .
 math: true
 image: /assets/images/trab2.png
+pin : true
 ---
 
 ## Introdução 

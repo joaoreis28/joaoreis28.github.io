@@ -9,7 +9,7 @@ pin : true
 image : /assets/images/voronoi.png
 ---
 
-## Conceitos básicos e primitivas
+# Conceitos básicos e primitivas
 
 ### Orientação relativa de vetores
 Para determinar a orientação de dois vetores no 
@@ -178,7 +178,7 @@ int noMeio(int a, int b, int c)
 
 ```
 
-## Triangulação de polígonos
+# Triangulação de polígonos
 
 # Particionamento de Polígonos em Pedaços Monótonos
 
@@ -786,19 +786,19 @@ O código também gera uma visualização SVG:
 
 
 
-## Convex Hull - Grahan Scan
+# Convex Hull - Grahan Scan
 
 
 {% include embed/video.html src='/assets/videos/receba.mp4' autoplay=true
   loop=true %}
 
 
-## Problema do Par mais próximo
+# Problema do Par mais próximo
 
 
-## Intersecção de Segmentos (números)
+# Intersecção de Segmentos (números)
 
 
-## Delaunay
+# Delaunay
 
-## Voronoi
+# Voronoi
