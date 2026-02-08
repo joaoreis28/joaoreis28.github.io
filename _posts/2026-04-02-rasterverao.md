@@ -4,7 +4,8 @@ date: 2026-02-06 10:00:00 -0300
 categories: [IMPA, Computação Visual]
 tags: [rasterizacao, computacao-grafica, impa, python, aliasing, triangulos]
 math: true
-image: /assets/images/rasterization.png
+image: assets/images/raster/mandelbrot_full.png
+
 ---
 
 ## Contexto
@@ -529,7 +530,7 @@ _Sem anti-aliasing (1x1) - aliasing severo nas bordas._
 ![Leão com Gaussian 4x4](assets/images/raster/lion_aa4.png){: width="300" height="480" }
 _Gaussian filter 4x4 - bordas suavizadas._
 
-![Leão com Gaussian 8x8](assets/images/raster/lion_gaussian_8x8.png){: width="300" height="480" }
+![Leão com Gaussian 8x8](assets/images/raster/lion_8.png){: width="300" height="480" }
 _Gaussian filter 8x8 - qualidade próxima ao ideal._
 
 
